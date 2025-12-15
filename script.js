@@ -1,4 +1,3 @@
-// Wait for DOM
 document.addEventListener("DOMContentLoaded", () => {
     
     // 1. REGISTER GSAP PLUGINS
@@ -22,29 +21,31 @@ document.addEventListener("DOMContentLoaded", () => {
     const cursorDot = document.querySelector('.cursor-dot');
     const cursorOutline = document.querySelector('.cursor-outline');
     
-    window.addEventListener('mousemove', (e) => {
-        const posX = e.clientX;
-        const posY = e.clientY;
-        cursorDot.style.left = `${posX}px`;
-        cursorDot.style.top = `${posY}px`;
-        gsap.to(cursorOutline, {
-            x: posX, y: posY, duration: 0.15, ease: "power2.out"
+    // Safety check if cursor elements exist
+    if (cursorDot && cursorOutline) {
+        window.addEventListener('mousemove', (e) => {
+            const posX = e.clientX;
+            const posY = e.clientY;
+            cursorDot.style.left = `${posX}px`;
+            cursorDot.style.top = `${posY}px`;
+            gsap.to(cursorOutline, {
+                x: posX, y: posY, duration: 0.15, ease: "power2.out"
+            });
         });
-    });
 
-    const magneticBtns = document.querySelectorAll('.magnetic');
-    magneticBtns.forEach(btn => {
-        btn.addEventListener('mouseenter', () => {
-            gsap.to(cursorOutline, { scale: 2.5, borderColor: 'rgba(10, 77, 46, 0.1)', backgroundColor: 'rgba(10, 77, 46, 0.05)' });
+        const magneticBtns = document.querySelectorAll('.magnetic');
+        magneticBtns.forEach(btn => {
+            btn.addEventListener('mouseenter', () => {
+                gsap.to(cursorOutline, { scale: 2.5, borderColor: 'rgba(10, 77, 46, 0.1)', backgroundColor: 'rgba(10, 77, 46, 0.05)' });
+            });
+            btn.addEventListener('mouseleave', () => {
+                gsap.to(cursorOutline, { scale: 1, borderColor: 'rgba(10, 77, 46, 0.3)', backgroundColor: 'transparent' });
+            });
         });
-        btn.addEventListener('mouseleave', () => {
-            gsap.to(cursorOutline, { scale: 1, borderColor: 'rgba(10, 77, 46, 0.3)', backgroundColor: 'transparent' });
-        });
-    });
-
+    }
 
     // ============================================================
-    // 4. PRELOADER & ENHANCED HERO ENTRY ANIMATION (UPDATED)
+    // 4. PRELOADER & HERO ANIMATIONS
     // ============================================================
     const tl = gsap.timeline();
     const counter = { val: 0 };
@@ -61,43 +62,36 @@ document.addEventListener("DOMContentLoaded", () => {
         y: "-100%", duration: 1, ease: "expo.inOut", delay: 0.2
     })
     
-    // --- NEW HERO ANIMATIONS START HERE ---
-    
-    // A. Image: Start zoomed in and blurry, then sharpen and zoom out
+    // --- HERO ENTRY ---
     .from('.hero-img', { 
         scale: 1.6, 
-        filter: "blur(15px)", // Dramatic blur start
+        filter: "blur(15px)", 
         duration: 2.5, 
         ease: "power3.out" 
     }, "-=0.8")
     
-    // B. Overlay: "Sunrise effect" - starts dark, brightens up
     .from('.overlay', {
-        backgroundColor: "rgba(0,0,0,0.8)", // Start very dark
-        backdropFilter: "blur(0px)", // Start with no blur on overlay
+        backgroundColor: "rgba(0,0,0,0.8)", 
+        backdropFilter: "blur(0px)", 
         duration: 2.5,
         ease: "power3.out"
     }, "<")
 
-    // C. Title Reveal: More pronounced skew and stagger
     .from('.hero-title .line span', {
-        yPercent: 105, // Push slightly further down
-        skewY: 10, // More dramatic angle
+        yPercent: 105, 
+        skewY: 10, 
         duration: 1.5,
         stagger: 0.15,
         ease: "power4.out"
-    }, "-=2") // Overlap significantly with image reveal
+    }, "-=2") 
 
-    // D. Supports items stagger in
     .from('.hero-label, .hero-sub, .scroll-indicator', { 
         opacity: 0, 
-        y: 50, // Larger slide up distance
+        y: 50, 
         duration: 1.2, 
         stagger: 0.2, 
         ease: "power3.out" 
     }, "-=1");
-
-    // --- END NEW HERO ANIMATIONS ---
 
 
     // 5. STATS COUNTER ANIMATION
@@ -105,8 +99,10 @@ document.addEventListener("DOMContentLoaded", () => {
         ScrollTrigger.create({
             trigger: count, start: "top 85%", once: true,
             onEnter: () => {
+                const rawVal = count.getAttribute('data-val');
+                const finalVal = parseInt(rawVal);
                 gsap.to(count, {
-                    innerHTML: count.getAttribute('data-val'), duration: 2, snap: { innerHTML: 1 },
+                    innerHTML: finalVal, duration: 2, snap: { innerHTML: 1 },
                     modifiers: { innerHTML: value => Math.floor(value) + "+" }
                 });
             }
@@ -146,20 +142,44 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     });
 
-    // 9. PRODUCTS 3D CYLINDER ROTATION
+    // ============================================================
+    // 9. PRODUCTS 3D CYLINDER ROTATION (CORRECTED & RESPONSIVE)
+    // ============================================================
     const ring = document.querySelector('.carousel-ring');
     const items = document.querySelectorAll('.prod-card');
-    const radius = 400; 
-    items.forEach((item, i) => {
-        const angle = (i / items.length) * 360;
-        gsap.set(item, {
-            rotationY: angle, z: radius, transformOrigin: `50% 50% -${radius}px`
+    
+    if(ring && items.length > 0) {
+        // RESPONSIVE RADIUS: 
+        // If mobile (less than 768px), use smaller radius so cards fit on screen
+        const isMobile = window.innerWidth < 768;
+        const radius = isMobile ? 250 : 450; 
+        
+        // 1. POSITION ITEMS IN A PERFECT CIRCLE
+        items.forEach((item, i) => {
+            const angle = (i / items.length) * 360;
+            gsap.set(item, {
+                rotationY: angle,
+                z: radius,
+                // Pivot around the center of the ring
+                transformOrigin: `50% 50% -${radius}px`,
+                backfaceVisibility: "hidden" 
+            });
         });
-    });
-    gsap.to(ring, {
-        scrollTrigger: { trigger: "#products", start: "top bottom", end: "bottom top", scrub: 1 },
-        rotationY: 180, ease: "none"
-    });
+
+        // 2. ANIMATE THE RING (FULL 360 ROTATION)
+        gsap.to(ring, {
+            scrollTrigger: {
+                trigger: "#products",
+                start: "top top",      
+                end: "+=4000",         // Long scroll distance for smooth rotation
+                pin: true,             // Pin section
+                scrub: 1,              
+                anticipatePin: 1
+            },
+            rotationY: -360,           // Full circle rotation
+            ease: "none"
+        });
+    }
 
     // 10. GOVT SCHEME REVEAL
     gsap.from('.scheme-container', {
@@ -169,18 +189,16 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
     // ============================================================
-    // 11. NEW: HERO PARALLAX SCROLL EFFECT
+    // 11. HERO PARALLAX SCROLL EFFECT
     // ============================================================
-    // As you scroll down, the background image moves slower than the text
-    // creating a sense of depth.
     gsap.to('.hero-bg-wrapper', {
         scrollTrigger: {
             trigger: '.hero',
             start: 'top top',
             end: 'bottom top',
-            scrub: true // Links animation progress to scrollbar
+            scrub: true 
         },
-        yPercent: 50, // Move the background down by 50% of its height
+        yPercent: 50, // Move background slower than text
         ease: 'none'
     });
 
