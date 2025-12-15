@@ -338,15 +338,13 @@ nav {
 /* --- LEADERS --- */
 /* --- LEADERS --- */
 .leaders-section {
-    /* Adjusted padding: 4rem top/bottom is standard, 
-       but if you want it very tight use 2rem 2rem */
-    padding: 4rem 2rem; 
+    /* Increased bottom padding to 8rem to stop cards from hitting the edge */
+    padding: 4rem 2rem 8rem 2rem; 
     background: var(--surface-color);
 }
 
 .section-header {
     text-align: center;
-    /* FIX: Reduced from 5rem to 2.5rem to close the gap */
     margin-bottom: 2.5rem; 
 }
 
@@ -358,11 +356,12 @@ nav {
 
 .leaders-grid {
     display: grid;
-    /* responsive grid: fits 3 cards, but stacks on mobile */
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
     gap: 3rem;
     max-width: 1400px;
     margin: 0 auto;
+    /* Added margin-bottom as an extra safety buffer */
+    margin-bottom: 2rem; 
 }
 
 .leader-card {
@@ -389,7 +388,7 @@ nav {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: top center; /* Focuses on faces usually */
+    object-position: top center; 
     transition: transform 0.5s ease;
 }
 
@@ -399,7 +398,7 @@ nav {
 
 .leader-info {
     padding: 2rem;
-    flex-grow: 1; /* Ensures cards are same height if text varies */
+    flex-grow: 1; 
     display: flex;
     flex-direction: column;
 }
