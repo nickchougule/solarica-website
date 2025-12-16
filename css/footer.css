@@ -1,45 +1,21 @@
-footer {
+/* --- FOOTER STYLES --- */
+footer.main-footer {
     background-color: #000000;
     color: #ffffff;
     padding: 0 2rem;
     position: relative;
-    font-family: var(--font-body);
-    overflow: hidden; /* GLOBAL SAFETY: Prevents any scrollbars */
-}
-
-/* --- CTA (Standard) --- */
-.cta-container {
-    border-radius: 30px;
-    padding: 6rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transform: translateY(-50px);
-    position: relative;
+    font-family: var(--font-body, sans-serif);
     overflow: hidden;
-    margin-bottom: 4rem;
-    z-index: 10;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
 }
-.cta-content { position: relative; z-index: 2; color: #fff; }
-.cta-content h2 { font-size: 4rem; margin-bottom: 2rem; font-weight: 800; }
-.cta-content p { max-width: 500px; margin-bottom: 3rem; font-weight: 500; }
-.btn-white { background: white; color: var(--accent-green); padding: 1rem 3rem; border: none; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.2s; }
-.btn-white:hover { transform: scale(1.05); }
-.cta-visual { position: absolute; right: 0; bottom: 0; width: 50%; height: 100%; }
 
-/* --- MAIN LAYOUT --- */
 .footer-wrapper {
     max-width: 1600px;
     margin: 0 auto;
     padding-bottom: 2rem;
-    position: relative;
-    z-index: 5;
 }
 
 .footer-split-layout {
     display: flex;
-    flex-wrap: nowrap; /* Forces side-by-side */
     width: 100%;
     min-height: 80vh;
     border-top: 1px solid rgba(255,255,255,0.1);
@@ -48,25 +24,22 @@ footer {
 
 /* --- LEFT SIDE --- */
 .footer-left {
-    width: 50%; /* STRICT WIDTH */
-    min-width: 50%; /* Prevent shrinking */
-    padding-right: 4rem;
+    width: 50%;
+    padding-right: 3rem;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    z-index: 10; /* Keeps content above any rogue graphic elements */
-    position: relative;
-    background: #000; /* Ensures background covers anything behind it */
+    z-index: 2; 
 }
 
 .brand-message {
-    font-family: var(--font-heading);
+    font-family: var(--font-heading, sans-serif);
     font-size: 3rem;
     font-weight: 700;
     line-height: 1.1;
     margin-bottom: 4rem;
 }
-.brand-message .highlight { color: var(--accent-green); }
+.brand-message .highlight { color: #10b981; /* Solarica Green */ }
 
 .links-grid {
     display: grid;
@@ -111,15 +84,14 @@ footer {
 .legal a { color: #555; margin-left: 15px; text-decoration: none; }
 
 
-/* --- RIGHT SIDE: SPOTLIGHT MASK ANIMATION --- */
+/* --- RIGHT SIDE: SPOTLIGHT ANIMATION --- */
 .footer-right {
-    width: 50%; /* STRICT WIDTH */
-    min-width: 50%;
+    width: 50%;
     position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
-    overflow: hidden; /* CRITICAL: Clips the big text */
+    overflow: hidden;
     border-left: 1px solid rgba(255,255,255,0.1);
 }
 
@@ -141,7 +113,6 @@ footer {
     gap: 0;
     width: 100%;
     white-space: nowrap;
-    /* Centering Trick */
     position: absolute;
     top: 50%;
     left: 50%;
@@ -149,48 +120,42 @@ footer {
 }
 
 .solar-text {
-    font-family: var(--font-heading);
-    font-size: 10vw; /* Massive font */
-    line-height: 0.82;
+    font-family: var(--font-heading, sans-serif);
+    font-size: 9vw;
+    line-height: 0.85;
     font-weight: 800;
     text-transform: uppercase;
     margin: 0;
     cursor: default;
     user-select: none;
-    letter-spacing: -2px;
 }
 
 /* Layer 1: Background (Dim) */
-.layer-dim {
-    z-index: 1;
-}
-
+.layer-dim { z-index: 1; }
 .layer-dim .solar-text {
     color: transparent;
     -webkit-text-stroke: 1px rgba(255,255,255,0.15);
+    opacity: 0.5;
 }
 
 /* Layer 2: Foreground (Bright) */
 .layer-bright {
     z-index: 2;
-    
-    /* THE MASK VARIABLES (Controlled by JS) */
+    /* Controlled by JS */
     --mask-x: 50%;
     --mask-y: 50%;
-    --mask-size: 0%; /* Hidden by default */
+    --mask-size: 0%;
     
     clip-path: circle(var(--mask-size) at var(--mask-x) var(--mask-y));
-    /* No transition on clip-path for instant "flashlight" feel */
-    /* Or add transition: clip-path 0.1s linear; for slight lag */
+    /* Remove transition for instant spotlight feel, or keep strict 0.1s for smoothness */
 }
 
 .layer-bright .solar-text {
     color: #ffffff;
-    text-shadow: 0 0 30px rgba(255, 255, 255, 0.5); /* Glow effect */
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
 }
 
-
-/* --- RESPONSIVE --- */
+/* Responsive Footer */
 @media (max-width: 1024px) {
     .footer-split-layout { flex-direction: column; }
     .footer-left { width: 100%; padding-right: 0; margin-bottom: 4rem; }
@@ -199,14 +164,13 @@ footer {
         width: 100%; 
         border-left: none; 
         border-top: 1px solid rgba(255,255,255,0.1);
-        padding: 6rem 0;
+        padding: 4rem 0;
         min-height: 400px;
     }
-    .solar-text { font-size: 18vw; }
+    .solar-text { font-size: 15vw; }
 }
 
 @media (max-width: 768px) {
-    .cta-container { padding: 3rem; flex-direction: column; }
-    .cta-visual { display: none; }
     .links-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .brand-message { font-size: 2.5rem; }
 }

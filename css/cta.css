@@ -1,0 +1,86 @@
+/* --- CTA SECTION STYLES --- */
+.cta-section-wrapper {
+    padding: 0 2rem;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 10;
+}
+
+.cta-container {
+    border-radius: 30px;
+    padding: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    /* Pull it up slightly to overlap previous section if desired, otherwise remove transform */
+    transform: translateY(-50px); 
+}
+
+.cta-content { 
+    position: relative; 
+    z-index: 2; 
+    color: #fff; 
+    max-width: 600px;
+}
+
+.cta-content h2 { 
+    font-family: var(--font-heading, sans-serif);
+    font-size: 4rem; 
+    margin-bottom: 2rem; 
+    font-weight: 800; 
+    line-height: 1.1;
+}
+
+.cta-content p { 
+    max-width: 500px; 
+    margin-bottom: 3rem; 
+    font-weight: 500; 
+    font-size: 1.1rem;
+    line-height: 1.6;
+}
+
+.btn-white { 
+    background: white; 
+    color: #0a4d2e; /* Dark Green */
+    padding: 1rem 3rem; 
+    border: none; 
+    border-radius: 50px; 
+    font-weight: 800; 
+    font-size: 1rem; 
+    cursor: pointer; 
+    transition: transform 0.2s, box-shadow 0.2s; 
+}
+
+.btn-white:hover { 
+    transform: scale(1.05); 
+    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.cta-visual { 
+    position: absolute; 
+    right: 0; 
+    bottom: 0; 
+    width: 50%; 
+    height: 100%; 
+    pointer-events: none;
+}
+
+/* Responsive CTA */
+@media (max-width: 1024px) {
+    .cta-container { 
+        flex-direction: column; 
+        padding: 4rem 2rem; 
+        text-align: center;
+    }
+    .cta-content { max-width: 100%; }
+    .cta-visual { 
+        width: 100%; 
+        height: 50%; 
+        opacity: 0.2; 
+        mask-image: linear-gradient(to bottom, transparent, black);
+        -webkit-mask-image: linear-gradient(to bottom, transparent, black);
+    }
+}
