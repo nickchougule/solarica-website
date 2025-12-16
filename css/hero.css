@@ -6,7 +6,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #000; /* Start black like premium sites */
+    background-color: #000;
 }
 
 .hero-bg-wrapper {
@@ -15,24 +15,40 @@
     z-index: 0;
     width: 100%; 
     height: 100%;
-    /* INITIAL STATE: A tiny circle in the center (0% size) */
+    /* INITIAL STATE: A tiny circle in the center */
     clip-path: circle(0% at 50% 50%);
     opacity: 1; 
-    will-change: clip-path; /* Optimization for smooth animation */
+    will-change: clip-path;
 }
 
 .hero-img {
+    /* Stacking logic for slideshow */
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    /* Zoomed in initially to create depth effect */
+    
+    /* Animation Settings */
     transform: scale(1.4); 
-    will-change: transform;
+    will-change: transform, opacity;
+    
+    /* Slideshow Fade Settings */
+    opacity: 0; 
+    transition: opacity 1s ease-in-out;
+}
+
+/* The active class makes the current image visible */
+.hero-img.active {
+    opacity: 1;
+    z-index: 1;
 }
 
 .overlay {
     position: absolute;
     inset: 0;
+    z-index: 2; /* Sits on top of images */
     background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
     opacity: 0;
 }
@@ -52,7 +68,7 @@
 
 .reveal-text {
     display: inline-block;
-    transform: translateY(100%); /* Hides text down */
+    transform: translateY(100%);
 }
 
 .hero-label { 

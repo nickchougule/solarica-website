@@ -1,16 +1,41 @@
 <nav>
     <div class="logo">
-        <span class="logo-icon"><img src="./assets/logoo.png" alt="Solarica Logo"></span> 
+        <a href="#"><img src="./assets/logoo.png" alt="Solarica Logo"></a>
     </div>
-    <div class="nav-links">
-        <a href="#" class="magnetic">Home</a>
-        <a href="#products" class="magnetic">Products</a>
-        <a href="#finance" class="magnetic">Finance</a>
-        <a href="#projects" class="magnetic">Projects</a>
-        <a href="#about" class="magnetic">About Us</a>
-        <a href="#careers" class="magnetic">Careers</a>
+
+    <div class="menu-toggle-btn magnetic">
+        <span class="menu-text">MENU</span>
+        <div class="hamburger-icon">
+            <span class="bar bar-1"></span>
+            <span class="bar bar-2"></span>
+        </div>
     </div>
-    <div class="nav-btn magnetic">
-        <a href="#contact">Get Quote <i class="ri-arrow-right-up-line"></i></a>
+
+    <div class="menu-overlay">
+        <div class="menu-content">
+            <ul class="main-menu-list">
+                
+                <li class="menu-item has-submenu">
+                    <div class="menu-link-wrapper">
+                        <span class="menu-link title">About</span>
+                        <i class="ri-arrow-down-s-line arrow-icon"></i>
+                    </div>
+                    <ul class="submenu-list">
+                        <li><a href="#about" class="sub-link">We Solarica</a></li>
+                        <li><a href="#about" class="sub-link">Our Journey</a></li> <li><a href="#about" class="sub-link">Our Company</a></li>
+                        <li><a href="#leaders" class="sub-link">Board of Directors</a></li>
+                        <li><a href="#about" class="sub-link">Awards & Certification</a></li>
+                    </ul>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#products" class="menu-link title">Products</a>
+                </li>
+
+                <li class="menu-item">
+                    <a href="#footer-root" class="menu-link title">Contact</a>
+                </li>
+            </ul>
+        </div>
     </div>
 </nav>
