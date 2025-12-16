@@ -1,10 +1,129 @@
-.scheme-section { padding: 6rem 4rem; background: var(--text-primary); color: white; border-radius: 40px; margin: 0 2rem; position: relative; overflow: hidden; }
-.scheme-container { position: relative; z-index: 2; text-align: center; max-width: 1200px; margin: 0 auto; }
-.badge { background: var(--accent-orange); color: white; display: inline-block; padding: 0.5rem 1rem; font-weight: 700; border-radius: 5px; margin-bottom: 2rem; }
-.scheme-section h2 { font-size: 4.5rem; line-height: 1.1; margin-bottom: 4rem; }
-.scheme-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; text-align: left; background: rgba(255, 255, 255, 0.1); padding: 3rem; border-radius: 20px; backdrop-filter: blur(10px); }
-.scheme-info h3 { color: var(--accent-orange); margin-bottom: 1rem; }
-.scheme-info p { color: #ddd; }
-.btn-primary { background: white; color: black; border: none; padding: 1rem 2rem; font-weight: 700; border-radius: 50px; margin-top: 1rem; cursor: pointer; transition: transform 0.2s; }
-.btn-primary:hover { transform: scale(1.05); }
-@media (max-width: 768px) { .scheme-grid { grid-template-columns: 1fr; } .scheme-section h2 { font-size: 3rem; } }
+/* --- FINANCE / SCHEME SECTION --- */
+.scheme-section {
+    padding: 8rem 4rem;
+    border-radius: 40px;
+    margin: 4rem 2rem; /* Spacing from other sections */
+    position: relative;
+    overflow: hidden;
+    color: white;
+
+    /* --- BACKGROUND SETTINGS --- */
+    /* 1. Dark Overlay for readability */
+    /* 2. High-quality Solar Roof Image */
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), rgba(0, 0, 0, 0.85)),
+                url('../assets/Suryaghar.webp');
+    
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed; /* Creates the Parallax Effect */
+}
+
+.scheme-container { 
+    position: relative; 
+    z-index: 2; 
+    text-align: center; 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+/* Badge Style */
+.badge { 
+    background: var(--accent-orange); 
+    color: white; 
+    display: inline-block; 
+    padding: 0.6rem 1.2rem; 
+    font-weight: 700; 
+    letter-spacing: 1px;
+    border-radius: 6px; 
+    margin-bottom: 2rem; 
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+/* Heading */
+.scheme-section h2 { 
+    font-family: var(--font-heading);
+    font-size: 5rem; 
+    line-height: 1; 
+    margin-bottom: 5rem; 
+    font-weight: 800;
+}
+
+/* Glassmorphism Card */
+.scheme-grid { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 5rem; 
+    text-align: left; 
+    
+    background: rgba(255, 255, 255, 0.05); /* Very subtle glass */
+    padding: 4rem; 
+    border-radius: 30px; 
+    backdrop-filter: blur(12px); 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+}
+
+.scheme-info h3 { 
+    color: var(--accent-orange); 
+    margin-bottom: 1.5rem; 
+    font-size: 1.8rem; 
+    font-weight: 700;
+}
+
+.scheme-info p { 
+    color: #e0e0e0; 
+    line-height: 1.7; 
+    font-size: 1.1rem;
+}
+
+.scheme-info strong {
+    color: white;
+}
+
+.scheme-action {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.scheme-action p { 
+    margin-bottom: 2rem; 
+    font-size: 1.2rem; 
+    font-weight: 500;
+    color: white;
+}
+
+/* Button Styling */
+.btn-primary { 
+    background: white; 
+    color: black; 
+    border: none; 
+    padding: 1.2rem 3rem; 
+    font-weight: 800; 
+    border-radius: 50px; 
+    cursor: pointer; 
+    font-size: 1rem;
+    text-transform: uppercase;
+    transition: all 0.3s ease; 
+}
+
+.btn-primary:hover { 
+    transform: scale(1.05); 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3); 
+    background: var(--accent-green);
+    color: white;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .scheme-section h2 { font-size: 3.5rem; }
+    .scheme-grid { gap: 3rem; padding: 3rem; }
+}
+
+@media (max-width: 768px) { 
+    .scheme-section { margin: 2rem 1rem; padding: 4rem 1.5rem; }
+    .scheme-grid { grid-template-columns: 1fr; gap: 2rem; } 
+    .scheme-section h2 { font-size: 2.5rem; margin-bottom: 3rem; } 
+    .btn-primary { width: 100%; }
+}

@@ -130,7 +130,6 @@ export function initAnimations() {
     // ============================================================
     // 6. SCROLL ANIMATIONS
     // ============================================================
-    
     gsap.utils.toArray('.stat-box .counter').forEach(count => {
         ScrollTrigger.create({
             trigger: count, start: "top 85%", once: true,
@@ -187,7 +186,7 @@ export function initAnimations() {
     });
 
     // ============================================================
-    // 7. FOOTER SPOTLIGHT MASK ANIMATION
+    // 7. FOOTER SPOTLIGHT MASK ANIMATION (Replicating SVG Effect)
     // ============================================================
     
     // A. Left Side Stagger Reveal
