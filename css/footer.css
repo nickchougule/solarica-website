@@ -1,0 +1,127 @@
+footer {
+    background: #061812; /* Deep dark green background from image */
+    color: white;
+    padding: 0 2rem;
+    margin-top: 0;
+    position: relative;
+    font-family: var(--font-body);
+}
+
+/* --- CTA SECTION STYLES --- */
+.cta-container {
+    border-radius: 30px;
+    padding: 6rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    transform: translateY(-50px);
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 2rem;
+    z-index: 10;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.cta-content { position: relative; z-index: 2; color: #003300; }
+.cta-content h2 { font-size: 4rem; margin-bottom: 2rem; font-weight: 800; }
+.cta-content p { max-width: 500px; margin-bottom: 3rem; color: #003300; font-weight: 500; }
+.btn-white { background: white; color: var(--accent-green); padding: 1rem 3rem; border: none; border-radius: 50px; font-weight: 800; font-size: 1rem; cursor: pointer; transition: transform 0.2s; }
+.btn-white:hover { transform: scale(1.05); }
+.cta-visual { position: absolute; right: 0; bottom: 0; width: 50%; height: 100%; }
+
+/* --- MAIN FOOTER GRID --- */
+.footer-main {
+    padding: 2rem 2rem 4rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.footer-grid {
+    display: grid;
+    /* 4 Columns: About (Wide) | Links | Products | Contact (Wide) */
+    grid-template-columns: 1.5fr 0.8fr 1fr 1.3fr;
+    gap: 3rem;
+}
+
+.f-col h4 {
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    color: white;
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.f-col p, .f-col a {
+    color: #b0b0b0; /* Light grey text */
+    font-size: 0.9rem;
+    margin-bottom: 0.8rem;
+    display: block;
+    line-height: 1.6;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.f-col a:hover {
+    color: var(--accent-leaf);
+}
+
+/* About Column Specifics */
+.about-col p { margin-bottom: 1rem; }
+.read-more {
+    color: var(--accent-leaf) !important; /* Green color for read more */
+    font-weight: 700;
+}
+
+/* Keep In-Touch Specifics */
+.contact-row {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.8rem;
+}
+.contact-row .label {
+    color: white;
+    font-weight: 700;
+    min-width: 65px; /* Aligns the content by reserving space for label */
+    font-size: 0.9rem;
+}
+.contact-row p, .contact-row a {
+    margin-bottom: 0;
+}
+
+/* --- COPYRIGHT SECTION --- */
+.footer-bottom {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 2rem 0;
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.copy-text p {
+    color: #666;
+    font-size: 0.85rem;
+    margin-bottom: 0.3rem;
+}
+
+.designer-credit a {
+    color: #3b82f6; /* Blue link color */
+    display: inline;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 1024px) {
+    .footer-grid {
+        grid-template-columns: 1fr 1fr; /* 2 columns on tablets */
+        gap: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .cta-container { padding: 3rem; flex-direction: column; }
+    .cta-visual { display: none; }
+    .footer-grid {
+        grid-template-columns: 1fr; /* 1 column on mobile */
+        gap: 2rem;
+    }
+    .contact-row { flex-direction: column; gap: 0.2rem; }
+}

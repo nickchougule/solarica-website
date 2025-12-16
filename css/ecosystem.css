@@ -1,0 +1,12 @@
+.ecosystem-section { padding: 8rem 4rem; background: var(--bg-color); }
+.ecosystem-header { text-align: center; margin-bottom: 5rem; }
+.ecosystem-header h2 { font-size: 4rem; color: var(--text-primary); }
+.stack-wrapper { position: relative; max-width: 1100px; margin: 0 auto; }
+.stack-card { position: sticky; top: 15vh; height: 60vh; border-radius: 30px; overflow: hidden; box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.1); display: flex; margin-bottom: 5vh; }
+.card-content { flex: 1; padding: 4rem; display: flex; flex-direction: column; justify-content: center; }
+.card-content h2 { font-size: 5rem; opacity: 0.2; margin-bottom: 1rem; }
+.card-content h3 { font-size: 2.5rem; margin-bottom: 1.5rem; }
+.card-visual { flex: 1; }
+.card-1 { background: #e0f2f1; color: #004d40; } .card-2 { background: #fff3e0; color: #e65100; }
+.card-3 { background: #f1f8e9; color: #33691e; } .card-4 { background: #eceff1; color: #263238; }
+@media (max-width: 768px) { .stack-card { flex-direction: column; height: auto; } .card-visual { display: none; } }

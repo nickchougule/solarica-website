@@ -1,0 +1,9 @@
+.testimonials-section { padding: 8rem 0; background: white; overflow: hidden; }
+.center-title { text-align: center; font-size: 3rem; margin-bottom: 4rem; }
+.testimonials-track { display: flex; gap: 2rem; width: max-content; animation: slideLeft 30s linear infinite; padding-left: 4rem; }
+.testimonial-card { width: 400px; background: var(--surface-color); padding: 3rem; border-radius: 20px; flex-shrink: 0; }
+.stars { color: var(--accent-orange); margin-bottom: 1.5rem; font-size: 1.2rem; }
+.testimonial-card p { font-size: 1.1rem; font-style: italic; margin-bottom: 2rem; color: var(--text-primary); }
+.testimonial-card h5 { font-size: 1.1rem; margin-bottom: 0.2rem; }
+.testimonial-card span { font-size: 0.8rem; text-transform: uppercase; color: var(--text-secondary); }
+@keyframes slideLeft { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }

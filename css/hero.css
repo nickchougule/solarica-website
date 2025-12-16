@@ -1,0 +1,105 @@
+.hero {
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #000; /* Start black like premium sites */
+}
+
+.hero-bg-wrapper {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    width: 100%; 
+    height: 100%;
+    /* INITIAL STATE: A tiny circle in the center (0% size) */
+    clip-path: circle(0% at 50% 50%);
+    opacity: 1; 
+    will-change: clip-path; /* Optimization for smooth animation */
+}
+
+.hero-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    /* Zoomed in initially to create depth effect */
+    transform: scale(1.4); 
+    will-change: transform;
+}
+
+.overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.7));
+    opacity: 0;
+}
+
+.hero-content {
+    text-align: center;
+    z-index: 10;
+    padding-top: 5rem;
+    position: relative;
+}
+
+/* Text Masking */
+.line, .sub-wrapper {
+    overflow: hidden; 
+    display: block;
+}
+
+.reveal-text {
+    display: inline-block;
+    transform: translateY(100%); /* Hides text down */
+}
+
+.hero-label { 
+    display: inline-block; 
+    background: #22c55e; 
+    color: black; 
+    padding: 0.6rem 1.2rem; 
+    border-radius: 50px; 
+    font-size: 0.9rem; 
+    font-weight: 800; 
+    margin-bottom: 2rem; 
+    overflow: hidden;
+}
+
+.hero-title { 
+    font-size: 8vw; 
+    line-height: 0.9; 
+    color: white; 
+    margin-bottom: 2rem; 
+    text-transform: uppercase;
+}
+
+.hero-sub { 
+    max-width: 600px; 
+    margin: 0 auto 4rem; 
+    font-size: 1.3rem; 
+    color: rgba(255,255,255,0.8); 
+}
+
+.highlight { color: #22c55e; }
+
+.scroll-indicator { 
+    font-size: 0.8rem; 
+    font-weight: 700; 
+    color: white; 
+    opacity: 0; 
+    display: flex; 
+    flex-direction: column; 
+    align-items: center; 
+    gap: 10px;
+}
+
+.line-down { 
+    width: 2px; 
+    height: 50px; 
+    background: white; 
+    animation: scrollDown 2s infinite; 
+}
+
+@keyframes scrollDown { 0% { height: 0; opacity: 0; } 50% { height: 50px; opacity: 1; } 100% { height: 0; opacity: 0; transform: translateY(50px); } }

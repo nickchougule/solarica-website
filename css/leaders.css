@@ -1,0 +1,13 @@
+.leaders-section { padding: 4rem 2rem 8rem 2rem; background: var(--surface-color); }
+.section-header { text-align: center; margin-bottom: 2.5rem; }
+.section-header h2 { font-size: 4rem; color: var(--text-primary); line-height: 1; }
+.leaders-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 3rem; max-width: 1400px; margin: 0 auto; margin-bottom: 2rem; }
+.leader-card { background: white; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); transition: transform 0.4s ease; display: flex; flex-direction: column; }
+.leader-card:hover { transform: translateY(-10px); }
+.leader-img { height: 350px; width: 100%; overflow: hidden; }
+.leader-img img { object-position: top center; transition: transform 0.5s ease; }
+.leader-card:hover .leader-img img { transform: scale(1.1); }
+.leader-info { padding: 2rem; flex-grow: 1; display: flex; flex-direction: column; }
+.leader-info h3 { font-size: 1.5rem; margin-bottom: 0.5rem; color: var(--accent-green); font-weight: 800; }
+.leader-info .role { display: block; font-size: 0.8rem; font-weight: 700; color: var(--accent-orange); margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 1px; }
+.leader-info p { font-size: 1rem; font-style: italic; color: var(--text-secondary); line-height: 1.5; }
