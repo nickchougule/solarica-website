@@ -9,6 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize Page Logic Immediately
     initHeroSlideshow();
     initPageAnimations();
+    initCustomCursor(); // <--- ADDED CURSOR INIT
 
     // Fetch and Inject Components (Navbar & Footer)
     loadComponents();
@@ -158,7 +159,7 @@ function initHeroSlideshow() {
         // Activate next
         slides[currentSlide].classList.add('active');
         if(dots[currentSlide]) dots[currentSlide].classList.add('active');
-    }, 6000); // Increased time slightly for video enjoyment
+    }, 6000);
 }
 
 function initPageAnimations() {
@@ -226,5 +227,51 @@ function initPageAnimations() {
     gsap.from(".cta-box", {
         y: 100, opacity: 0, duration: 1, ease: "power3.out",
         scrollTrigger: { trigger: ".cta-section", start: "top 85%" }
+    });
+}
+
+// =========================================================
+// 5. CUSTOM CURSOR LOGIC (New)
+// =========================================================
+function initCustomCursor() {
+    const cursorDot = document.querySelector('.cursor-dot');
+    const cursorOutline = document.querySelector('.cursor-outline');
+
+    // Only run on non-touch devices
+    if (!cursorDot || !cursorOutline || window.matchMedia("(pointer: coarse)").matches) return;
+
+    // Center cursor initially to avoid jump
+    gsap.set([cursorDot, cursorOutline], { xPercent: -50, yPercent: -50, x: window.innerWidth/2, y: window.innerHeight/2 });
+
+    // Mouse Move Event
+    window.addEventListener('mousemove', (e) => {
+        const posX = e.clientX;
+        const posY = e.clientY;
+
+        // 1. Dot follows instantly
+        gsap.to(cursorDot, {
+            x: posX, y: posY, duration: 0.01, ease: "none"
+        });
+
+        // 2. Outline follows with lag
+        gsap.to(cursorOutline, {
+            x: posX, y: posY, duration: 0.15, ease: "power2.out"
+        });
+    });
+
+    // Hover Effects (Delegated to handle Async Navbar/Footer)
+    document.addEventListener('mouseover', (e) => {
+        const target = e.target;
+        // Check if hovering over interactive elements or their children
+        if (target.matches('a, button, .menu-toggle-btn, .choose-item, .vp-image') || target.closest('a, button')) {
+            document.body.classList.add('hovering');
+        }
+    });
+
+    document.addEventListener('mouseout', (e) => {
+        const target = e.target;
+        if (target.matches('a, button, .menu-toggle-btn, .choose-item, .vp-image') || target.closest('a, button')) {
+            document.body.classList.remove('hovering');
+        }
     });
 }
