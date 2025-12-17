@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize Page Logic Immediately
     initHeroSlideshow();
     initPageAnimations();
-    initCustomCursor(); // <--- ADDED CURSOR INIT
+    initCustomCursor(); // <--- ADDED: Initialize Custom Cursor here
 
     // Fetch and Inject Components (Navbar & Footer)
     loadComponents();
@@ -231,7 +231,7 @@ function initPageAnimations() {
 }
 
 // =========================================================
-// 5. CUSTOM CURSOR LOGIC (New)
+// 5. CUSTOM CURSOR LOGIC (ADDED)
 // =========================================================
 function initCustomCursor() {
     const cursorDot = document.querySelector('.cursor-dot');
