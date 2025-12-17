@@ -158,54 +158,73 @@ function initHeroSlideshow() {
         // Activate next
         slides[currentSlide].classList.add('active');
         if(dots[currentSlide]) dots[currentSlide].classList.add('active');
-    }, 5000);
+    }, 6000); // Increased time slightly for video enjoyment
 }
 
 function initPageAnimations() {
     // A. Hero Text Reveal (Immediate)
-    gsap.from(".hero-content h1", { y: 50, opacity: 0, duration: 1, delay: 0.5 });
-    gsap.from(".hero-content p", { y: 50, opacity: 0, duration: 1, delay: 0.7 });
+    const tlHero = gsap.timeline();
+    tlHero.from(".hero-content h1", { y: 80, opacity: 0, duration: 1.2, ease: "power3.out" })
+          .from(".hero-content p", { y: 40, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.8")
+          .from(".hero-btns", { y: 20, opacity: 0, duration: 0.8 }, "-=0.6");
 
     // B. Who We Are
     gsap.from(".who-we-are .fade-up", {
-        y: 50, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out",
-        scrollTrigger: { trigger: ".who-we-are", start: "top 75%" }
+        y: 60, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out",
+        scrollTrigger: { trigger: ".who-we-are", start: "top 80%" }
     });
 
-    // C. Vision & Promise
+    // C. Vision, Promise & Concept (IMPROVED WITH PARALLAX)
     const rows = document.querySelectorAll('.vp-row');
     rows.forEach(row => {
         const text = row.querySelector('.vp-text');
-        const img = row.querySelector('.vp-image');
+        const imgWrapper = row.querySelector('.vp-image');
+        const img = row.querySelector('.vp-image img');
         
+        // Text Animation
         if(text) {
             gsap.from(text, {
                 x: -50, opacity: 0, duration: 1.2, ease: "power3.out",
                 scrollTrigger: { trigger: row, start: "top 75%" }
             });
         }
-        if(img) {
-            gsap.from(img, {
-                x: 50, opacity: 0, duration: 1.2, ease: "power3.out",
+        
+        // Image Container Entrance
+        if(imgWrapper) {
+            gsap.from(imgWrapper, {
+                scale: 0.9, opacity: 0, duration: 1.2, ease: "power2.out",
                 scrollTrigger: { trigger: row, start: "top 75%" }
             });
+
+            // Internal Parallax Effect (Image moves inside container)
+            if(img) {
+                gsap.to(img, {
+                    yPercent: -15, // Moves up slightly as you scroll down
+                    ease: "none",
+                    scrollTrigger: {
+                        trigger: row,
+                        start: "top bottom", // Start when row hits bottom of viewport
+                        end: "bottom top",   // End when row leaves top
+                        scrub: true
+                    }
+                });
+            }
         }
     });
 
     // D. Why Choose Us
-    gsap.from(".choose-img", {
-        x: -50, opacity: 0, duration: 1,
-        scrollTrigger: { trigger: ".choose-grid", start: "top 75%" }
+    const chooseTl = gsap.timeline({
+        scrollTrigger: { trigger: ".why-choose-us", start: "top 70%" }
     });
 
-    gsap.from(".choose-item", {
-        x: 50, opacity: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.7)",
-        scrollTrigger: { trigger: ".choose-list", start: "top 80%" }
-    });
+    chooseTl.from(".choose-img", { x: -80, opacity: 0, duration: 1.2, ease: "power3.out" })
+            .from(".choose-item", { 
+                x: 80, opacity: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.2)" 
+            }, "-=0.8");
 
     // E. CTA
     gsap.from(".cta-box", {
-        scale: 0.9, opacity: 0, duration: 1, ease: "elastic.out(1, 0.75)",
+        y: 100, opacity: 0, duration: 1, ease: "power3.out",
         scrollTrigger: { trigger: ".cta-section", start: "top 85%" }
     });
 }
