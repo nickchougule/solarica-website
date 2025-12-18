@@ -6,10 +6,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Register GSAP Plugin
     gsap.registerPlugin(ScrollTrigger);
 
-    // Initialize Page Logic Immediately
+    // Initialize Page Logic Immediately (Hero, Cursor, etc.)
     initHeroSlideshow();
+    initCustomCursor();
+
+    // Initialize Animations that don't depend on Footer/Nav
     initPageAnimations();
-    initCustomCursor(); // <--- ADDED: Initialize Custom Cursor here
+    initWhoWeAreScrub(); // <--- NEW: High-end text scrubbing added here
 
     // Fetch and Inject Components (Navbar & Footer)
     loadComponents();
@@ -162,6 +165,45 @@ function initHeroSlideshow() {
     }, 6000);
 }
 
+// ---------------------------------------------------------
+// NEW: High-End Scrollytelling for "Who We Are"
+// ---------------------------------------------------------
+function initWhoWeAreScrub() {
+    // 1. Select all the text spans (Make sure you updated HTML to use .highlight-span)
+    const spans = document.querySelectorAll(".highlight-span");
+
+    // 2. Animate each line individually as you scroll
+    spans.forEach(span => {
+        gsap.to(span, {
+            opacity: 1,          // Turn fully visible
+            filter: "blur(0px)", // Remove the blur
+            y: 0,                // Move to natural position
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: span,
+                start: "top 85%", // Start animating when line enters bottom of view
+                end: "top 45%",   // Finish when line is near center
+                scrub: 0.5,       // Smooth scrubbing linked to scrollbar
+                toggleActions: "play reverse play reverse"
+            }
+        });
+    });
+
+    // 3. Animate the Header on the left side
+    gsap.from(".who-header-col", {
+        x: -50,
+        opacity: 0,
+        duration: 1.5,
+        ease: "power3.out",
+        scrollTrigger: {
+            trigger: ".who-we-are",
+            start: "top 70%",
+            toggleActions: "play reverse play reverse"
+        }
+    });
+}
+
 function initPageAnimations() {
     // A. Hero Text Reveal (Immediate)
     const tlHero = gsap.timeline();
@@ -169,69 +211,109 @@ function initPageAnimations() {
           .from(".hero-content p", { y: 40, opacity: 0, duration: 1, ease: "power3.out" }, "-=0.8")
           .from(".hero-btns", { y: 20, opacity: 0, duration: 0.8 }, "-=0.6");
 
-    // B. Who We Are
-    gsap.from(".who-we-are .fade-up", {
-        y: 60, opacity: 0, duration: 1, stagger: 0.2, ease: "power3.out",
-        scrollTrigger: { trigger: ".who-we-are", start: "top 80%" }
-    });
+    // B. Who We Are -- REMOVED OLD FADE-UP TO USE NEW SCRUB FUNCTION ABOVE
 
     // C. Vision, Promise & Concept (IMPROVED WITH PARALLAX)
-    const rows = document.querySelectorAll('.vp-row');
-    rows.forEach(row => {
-        const text = row.querySelector('.vp-text');
-        const imgWrapper = row.querySelector('.vp-image');
-        const img = row.querySelector('.vp-image img');
-        
-        // Text Animation
-        if(text) {
-            gsap.from(text, {
-                x: -50, opacity: 0, duration: 1.2, ease: "power3.out",
-                scrollTrigger: { trigger: row, start: "top 75%" }
-            });
-        }
-        
-        // Image Container Entrance
-        if(imgWrapper) {
-            gsap.from(imgWrapper, {
-                scale: 0.9, opacity: 0, duration: 1.2, ease: "power2.out",
-                scrollTrigger: { trigger: row, start: "top 75%" }
-            });
-
-            // Internal Parallax Effect (Image moves inside container)
+    const stackCards = document.querySelectorAll('.vp-card');
+    
+    if (stackCards.length > 0) {
+        // We iterate through all cards except the last one
+        // (The last card doesn't need to scale down, it just sits on top)
+        stackCards.forEach((card, i) => {
+            
+            // Logic for the image inside (Parallax effect)
+            const img = card.querySelector('img');
             if(img) {
-                gsap.to(img, {
-                    yPercent: -15, // Moves up slightly as you scroll down
+                gsap.fromTo(img, 
+                    { scale: 1.2, yPercent: -10 },
+                    { 
+                        yPercent: 10, 
+                        ease: "none",
+                        scrollTrigger: {
+                            trigger: card,
+                            start: "top bottom",
+                            end: "bottom top",
+                            scrub: true
+                        } 
+                    }
+                );
+            }
+
+            // Logic for the CARD itself (Scaling down as next one covers it)
+            if (i !== stackCards.length - 1) {
+                gsap.to(card.querySelector('.vp-card-inner'), {
+                    scale: 0.9,       // Shrink slightly
+                     // Darken
+                    y: 50,            // Push down slightly
                     ease: "none",
                     scrollTrigger: {
-                        trigger: row,
-                        start: "top bottom", // Start when row hits bottom of viewport
-                        end: "bottom top",   // End when row leaves top
-                        scrub: true
+                        trigger: card,
+                        start: "top top", // When card hits top of screen
+                        end: "bottom top", // When card leaves top of screen
+                        scrub: true,
+                        pin: false // The CSS 'sticky' handles the pinning, GSAP handles the visuals
                     }
                 });
             }
-        }
-    });
+        });
+    }
 
-    // D. Why Choose Us
-    const chooseTl = gsap.timeline({
-        scrollTrigger: { trigger: ".why-choose-us", start: "top 70%" }
-    });
+    // D. Why Choose Us (Sticky Section Animations)
+    const chooseSection = document.querySelector('.why-choose-us');
+    
+    if (chooseSection) {
+        
+        // 1. TIMELINE FILL ANIMATION (Scrub linked to scroll)
+        gsap.to(".timeline-fill", {
+            height: "100%",
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".choose-list",
+                start: "top 60%", // Start filling when list is near center
+                end: "bottom 60%", // End when bottom of list is near center
+                scrub: true
+            }
+        });
 
-    chooseTl.from(".choose-img", { x: -80, opacity: 0, duration: 1.2, ease: "power3.out" })
-            .from(".choose-item", { 
-                x: 80, opacity: 0, duration: 0.8, stagger: 0.1, ease: "back.out(1.2)" 
-            }, "-=0.8");
+        // 2. PARALLAX IMAGE INSIDE STICKY BOX
+        gsap.to(".parallax-inner", {
+            y: -50, // Move image slightly up inside container
+            ease: "none",
+            scrollTrigger: {
+                trigger: ".choose-layout",
+                start: "top bottom",
+                end: "bottom top",
+                scrub: true
+            }
+        });
+
+        // 3. CARD FOCUS EFFECT (The "Sexy" Part)
+        const cards = document.querySelectorAll(".choose-card");
+        
+        cards.forEach((card) => {
+            ScrollTrigger.create({
+                trigger: card,
+                start: "top 65%", // When card top hits 65% of viewport height
+                end: "bottom 65%", // When card bottom passes that point
+                
+                // Toggle 'active' class for CSS transition (Scale/Opacity)
+                onEnter: () => card.classList.add("active"),
+                onLeave: () => card.classList.remove("active"),
+                onEnterBack: () => card.classList.add("active"),
+                onLeaveBack: () => card.classList.remove("active")
+            });
+        });
+    }
 
     // E. CTA
     gsap.from(".cta-box", {
         y: 100, opacity: 0, duration: 1, ease: "power3.out",
-        scrollTrigger: { trigger: ".cta-section", start: "top 85%" }
+        scrollTrigger: { trigger: ".cta-section", start: "top 85%", toggleActions: "play reverse play reverse" }
     });
 }
 
 // =========================================================
-// 5. CUSTOM CURSOR LOGIC (ADDED)
+// 5. CUSTOM CURSOR LOGIC
 // =========================================================
 function initCustomCursor() {
     const cursorDot = document.querySelector('.cursor-dot');
@@ -259,18 +341,18 @@ function initCustomCursor() {
         });
     });
 
-    // Hover Effects (Delegated to handle Async Navbar/Footer)
+    // Hover Effects (Delegated to handle Async Navbar/Footer elements)
     document.addEventListener('mouseover', (e) => {
         const target = e.target;
         // Check if hovering over interactive elements or their children
-        if (target.matches('a, button, .menu-toggle-btn, .choose-item, .vp-image') || target.closest('a, button')) {
+        if (target.matches('a, button, .menu-toggle-btn, .choose-card, .vp-image') || target.closest('a, button, .choose-card')) {
             document.body.classList.add('hovering');
         }
     });
 
     document.addEventListener('mouseout', (e) => {
         const target = e.target;
-        if (target.matches('a, button, .menu-toggle-btn, .choose-item, .vp-image') || target.closest('a, button')) {
+        if (target.matches('a, button, .menu-toggle-btn, .choose-card, .vp-image') || target.closest('a, button, .choose-card')) {
             document.body.classList.remove('hovering');
         }
     });
